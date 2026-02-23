@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Memory Match Game</title>
+    <style>
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(4, 100px);
+            gap: 10px;
+        }
+        .card {
+            width: 100px;
+            height: 100px;
+            background: lightblue;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2em;
+            cursor: pointer;
+        }
+        .hidden {
+            background: gray;
+            color: transparent;
+        }
+    </style>
+</head>
+<body>
+    <h1>Memory Match</h1>
+    <div class="grid" id="game-board"></div>
+
+    <script>
+        const symbols = ["🍎","🍎","🍌","🍌","🍇","🍇","🍒","🍒",
+                         "🍓","🍓","🍍","🍍","🥝","🥝","🍑","🍑"];
+        let shuffled = symbols.sort(() => 0.5 - Math.random());
+        const board = document.getElementById("game-board");
+
+        shuffled.forEach((symbol, i) => {
+            const card = document.createElement("div");
+            card.classList.add("card", "hidden");
+            card.dataset.symbol = symbol;
+            card.innerText = symbol;
+            card.addEventListener("click", flipCard);
+            board.appendChild(card);
+        });
+
+        let firstCard = null;
+        function flipCard(e) {
+            const card = e.target;
+            if (!card.classList.contains("hidden")) return;
+            card.classList.remove("hidden");
+
+            if (!firstCard) {
+                firstCard = card;
+            } else {
+                if (firstCard.dataset.symbol === card.dataset.symbol) {
+                    firstCard = null; // match found
+                } else {
+                    setTimeout(() => {
+                        card.classList.add("hidden");
+                        firstCard.classList.add("hidden");
+                        firstCard = null;
+                    }, 1000);
+                }
+            }
+        }
+    </script>
+</body>
+</html>

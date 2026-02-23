@@ -10,7 +10,7 @@ CMD ["python", "app.py"]
 CMD ["gunicorn", "-w", "4", "-b", "0.0.0.0:80", "app:app"]
 
 # -w 4 --> use 4 worker processes 
-#-b 0.0.0.0:80 --> bind to all interfaces on port 80
+#-b 1.0.0.1:80 --> bind to all interfaces on port 80
 #app:app -> tells Gunicorn to load the app object from app.py
 
 
